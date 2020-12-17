@@ -1,12 +1,7 @@
-@extends('layouts.flex')
+@extends('layouts.flex_use')
 
-@section('title', 'Add')
-
-@section('menubar')
-   @parent
-   購入商品登録ページ
-@endsection
-
+@section('sub_title', '商品購入')
+@section('title', 'BuyItemAdd')
 
 @section('content')
   @if(count($errors) > 0)
@@ -19,55 +14,77 @@
     </div>
   @endif
 
-  <h4>席：{{$seat->name}}</h4>
+  <h2 class="ma-x-30">{{$seat->name}}</h2>
     
 @endsection
 
-
-  @section('left_content')
-    <form action="buy_item" method="post">
-      @csrf
-      <h5 class="text_center">Bottle〜ボトル〜</h5>
-      <table>
-        <tr>
-          <th>商品名</th>
-          <th>在庫</th>
-        </tr>
-        @foreach($products as $product)
+@section('main_box') 
+  <form action="buy_item" method="post">
+    @csrf
+    <div class="flex">
+      <div class="flex_child">
+        <h3 class="text_center">Bottle〜ボトル〜</h3>
+        <table>
           <tr>
-            <td>{{$product->name}}</td>
-            <td Style="text-align:center">{{$product->count}}</td>
-            <td>
-              <select name="{{$product->name}}">
-                <option value="">個数を選択</option>
-                @for($i=1; $i<=$product->count; $i++)
-                  <option value={{$i}}>{{$i}}</option>
-                @endfor
-              </select>
-            </td>
+            <th>商品名</th>
+            <th>在庫</th>
           </tr>
-        @endforeach
-      </table>
-      <input type="hidden" name="seat_id" value={{$seat->id}}>
-      <div class="submit_btn">
-        <input type="submit" value="商品の追加">
+          @foreach($products as $product)
+            <tr>
+              <td>{{$product->name}}</td>
+              <td Style="text-align:center">{{$product->count}}</td>
+              <td>
+                <select name="{{$product->name}}">
+                  <option value="">個数を選択</option>
+                  @for($i=1; $i<=$product->count; $i++)
+                    <option value={{$i}}>{{$i}}</option>
+                  @endfor
+                </select>
+              </td>
+            </tr>
+          @endforeach
+        </table>
       </div>
-    </form>
-  @endsection
-  @section('center_content')
-    <h5 class="text_center">Set〜セット〜</h5>
-    <table>
-
-    </table>
-  @endsection
-  @section('right_content')
-    <h5 class="text_center">Ather〜その他〜</h5>
-    <table>
-
-    </table>
-  @endsection
-
-  
+      <div class="flex_child">
+        <h3 class="text_center">Set〜セット〜</h3>
+        <table>
+          @foreach($setMenus as $setMenu)
+            <tr>
+              <td>{{$setMenu->name}}</td>
+              <td width="100px">¥{{$setMenu->price}}</td>
+              <td>
+                <select name="{{$setMenu->name}}">
+                  <option value="">-</option>
+                  <option value={{$setMenu->id}}>追加</option>
+                </select>
+              </td>
+            </tr>
+          @endforeach
+        </table>
+      </div>
+      <div class="flex_child">
+        <h3 class="text_center">Ather〜その他〜</h3>
+        <table>
+          @foreach($atherMenus as $atherMenu)
+            <tr>
+              <td>{{$atherMenu->name}}</td>
+              <td>
+                <select name="{{$atherMenu->name}}">
+                  <option value="">-</option>
+                  <option value={{$atherMenu->id}}>追加</option>
+                </select>
+              </td>
+            </tr>
+          @endforeach
+        </table>
+      </div>
+    </div>
+    <input type="hidden" name="seat_id" value={{$seat->id}}>
+    <div class="submit_btn">
+      <input type="submit" value="追加" class="btn">
+    </div>
+  </form>
+@endsection 
 
 @section('footer')
 copyright 2020 tuyano.

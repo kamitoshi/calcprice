@@ -1,11 +1,7 @@
 @extends('layouts.flex')
 
-@section('title', 'Add')
-
-@section('menubar')
-   @parent
-   購入商品登録ページ
-@endsection
+@section('sub_title', '購入商品追加')
+@section('title', 'BuyItemAdd')
 
 <form action="/buy_item/add" method="post">
   @csrf

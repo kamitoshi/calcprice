@@ -60,27 +60,27 @@ class ProductController extends Controller
         return redirect("product");
     }
 
-    public function edit($id){
-        $product = Product::find($id);
-        return view("product.edit", ["form" => $product]);
+    public function edit(Request $request, $product_id){
+        $product = Product::find($product_id);
+        return view("product.edit", ["product" => $product]);
     }
 
-    public function update(Request $request){
+    public function update(Request $request, $product_id){
         $this->validate($request, Product::$rules);
-        $product = Product::find($request->id);
+        $product = Product::find($product_id);
         $form = $request->all();
         unset($form["_token"]);
         $product->fill($form)->save();
         return redirect("product");
     }
 
-    public function del($id){
-        $product = Product::find($id);
-        return view("product.del", ["form" => $product]);
+    public function del($product_id){
+        $product = Product::find($product_id);
+        return view("product.del", ["product" => $product]);
     }
 
-    public function delete(Request $request){
-        $product = Product::find($request->id)->delete();
+    public function delete(Request $request, $product_id){
+        Product::find($product_id)->delete();
         return redirect("product");
     }
 

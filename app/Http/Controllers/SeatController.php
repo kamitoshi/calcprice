@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use App\Seat;
 use App\BuyItem;
 use App\Product;
+use App\SetMenu;
+use App\AtherMenu;
 
 class SeatController extends Controller
 {
@@ -15,15 +17,27 @@ class SeatController extends Controller
         return view("seat.index", ["seats" => $seats]);
     }
 
+    public function coming(Request $request){
+        $seat = Seat::find($request->seat_id);
+        $seat->guest_count = $request->guest_count;
+        $seat->hasUse = true;
+        $seat->save();
+        return redirect("seat");
+    }
+
     public function buy_item(Request $request, $seat_id){
         $seat = Seat::find($seat_id);
         $products = Product::all();
-        return view("seat.buy_item", ["seat" => $seat, "products" => $products]);
+        $setMenus = SetMenu::all();
+        $atherMenus = AtherMenu::all();
+        return view("seat.buy_item", ["seat" => $seat, "products" => $products, "setMenus" => $setMenus, "atherMenus" => $atherMenus]);
     }
 
     public function add(Request $request, $seat_id){
         $seat = Seat::find($seat_id);
         $products = Product::all();
+        $setMenus = SetMenu::all();
+        $atherMenus = AtherMenu::all();
         foreach($products as $product){
             if($request->input($product->name) !== null){
                 for($i = 1; $i<=$request->input($product->name); $i++){
@@ -39,13 +53,41 @@ class SeatController extends Controller
                 continue;
             }
         }
+        foreach($setMenus as $setMenu){
+            if($request->input($setMenu->name) !== null){
+                $seat->setMenus()->attach($setMenu->id);
+            }else{
+                continue;
+            }
+        }
+        foreach($atherMenus as $atherMenu){
+            if($request->input($atherMenu->name) !== null){
+                $seat->atherMenus()->attach($atherMenu->id);
+            }else{
+                continue;
+            }
+        }
         return redirect("seat");
     }
 
     public function payment(Request $request, $seat_id){
         $seat = Seat::find($seat_id);
-        $buyItems = $seat->buyItem;
-        return view("seat.payment", ["seat" => $seat, "buyItems" => $buyItems]);
+        return view("seat.payment", ["seat" => $seat]);
+    }
+
+    public function pay(Request $request, $seat_id){
+        $seat = Seat::find($seat_id);
+        $seat->guest_count = 0;
+        $seat->hasUse = false;
+        $seat->save();
+        $buyItems = $seat->buyItems;
+        foreach($buyItems as $buyItem){
+            $buyItem->billed = true;
+            $buyItem->save();
+        }
+        $seat->setMenus()->detach();
+        $seat->atherMenus()->detach();
+        return redirect("seat");
     }
 
 
