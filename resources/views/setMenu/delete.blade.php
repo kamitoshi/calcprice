@@ -1,14 +1,14 @@
 @extends('layouts.main')
 
-@section('sub_title', '商品削除')
-@section('title', 'ProductDelete')
+@section('sub_title', 'セット削除')
+@section('title', 'SetMenuDelete')
 
 @section('main_container')
   <div class="delete_form center">
     <p>本当に削除してもよろしいですか？</p>
-    <p>{{$product->name}}</p>
+    <p>{{$setMenu->name}}</p>
   </div>
-  <form action="/product/{{$product->id}}/del" method="post">
+  <form action="/set_menu/{{$setMenu->id}}/delete" method="post">
     @csrf
     <div class="submit_btn">
       <input type="submit" value="削除" class="btn">

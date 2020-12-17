@@ -1,13 +1,9 @@
 @extends('layouts.main')
 
-@section('title', 'Show')
+@section('sub_title', '商品詳細')
+@section('title', 'ProductShow')
 
-@section('menubar')
-   @parent
-   インデックスページ
-@endsection
-
-@section('content')
+@section('main_container')
   <table>
     <tr>
       <th >id:</th>

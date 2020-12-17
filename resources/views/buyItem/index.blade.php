@@ -1,13 +1,10 @@
 @extends('layouts.main')
 
-@section('title', 'Index')
+@section('sub_title', '購入履歴')
+@section('title', 'buyItemIndex')
 
-@section('menubar')
-   @parent
-   インデックスページ
-@endsection
 
-@section('content')
+@section('main_container')
    @if ($buyItems != null)
     @foreach($buyItems as $item)
       <table>
@@ -18,8 +15,8 @@
           <td >{{$item->product->name}}</td>
           <th >座席名</th>
           <td >{{$item->seat->name}}</td>
-          <th >短縮表示</th>
-          <td >{{$item->getName()}}</td>
+          <th >支払状況</th>
+          <td >{{$item->billed()}}</td>
         </tr>
       </table>
     @endforeach

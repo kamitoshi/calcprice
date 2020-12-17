@@ -13,42 +13,64 @@
     <h3 class="payment_seat">{{$seat->name}}</h3>
     <hr>
     <div class="payment_detail">
-      <h5>購入商品一覧</h5>
-      <div class="payment_product_title flex_between">
-        <p class="flex_child">商品名</p>
-        <p class="flex_child">価格</p>
-      </div>
-      @foreach($seat->getProductAdjust() as $buyItem)
-        @if($seat->getTotalCount($buyItem->getProductName()) > 1)
+      <h4>■購入商品一覧</h4>
+      @if($seat->getHasNotBilled())
+        @foreach($seat->getNotBilledProductAdjust() as $buyItem)
+          @if($seat->getNotBilledTotalCount($buyItem->getProductName()) > 1)
+            <div class="payment_product flex_between">
+              <p class="flex_child">　{{$buyItem->getProductName()}}　x　{{$seat->getNotBilledTotalCount($buyItem->getProductName())}}</p>
+              <p class="flex_child">¥{{$buyItem->getSumPrice($seat->getNotBilledTotalCount($buyItem->getProductName()))}}</p>
+            </div>
+          @else
+            <div class="payment_product flex_between">
+              <p class="flex_child">　{{$buyItem->getProductName()}}</p>
+              <p class="flex_child">¥{{$buyItem->getSumPrice($seat->getNotBilledTotalCount($buyItem->getProductName()))}}</p>
+            </div>
+          @endif
+        @endforeach
+      @endif
+      <hr>
+      <h4>■セット</h4>
+      @if($seat->setMenus !== null)
+        @foreach($seat->getSetMenuAdjust() as $setMenu)
           <div class="payment_product flex_between">
-            <p class="flex_child">{{$buyItem->getProductName()}}　x　{{$seat->getTotalCount($buyItem->getProductName())}}</p>
-            <p class="flex_child">¥{{$buyItem->getSumPrice($seat->getTotalCount($buyItem->getProductName()))}}</p>
+            <p class="flex_child">　{{$setMenu->name}}　x　{{$seat->getSetMenuAdjustCount($setMenu->name)}}</p>
+            <p class="flex_child">¥{{$setMenu->getSumPrice($seat->getSetMenuAdjustCount($setMenu->name))}}</p>
           </div>
-        @else
+        @endforeach
+      @endif
+      <hr>
+      <h4>■その他（サービス）</h4>
+      @if($seat->atherMenus !== null)
+        @foreach($seat->getAtherMenuAdjust() as $atherMenu)
           <div class="payment_product flex_between">
-            <p class="flex_child">{{$buyItem->getProductName()}}</p>
-            <p class="flex_child">¥{{$buyItem->getSumPrice($seat->getTotalCount($buyItem->getProductName()))}}</p>
+            <p class="flex_child">　{{$atherMenu->name}}　x　{{$seat->getAtherMenuAdjustCount($atherMenu->name)}}</p>
+            <p class="flex_child">¥{{$atherMenu->getSumPrice($seat->getAtherMenuAdjustCount($atherMenu->name))}}</p>
           </div>
-        @endif
-      @endforeach
+        @endforeach
+      @endif
+      <hr>
       <div class="payment_product_title flex_between">
-        <p class="flex_child">小計</p>
-        <p class="flex_child">¥{{$seat->getTotalPrice()}}</p>
+        <p class="flex_child">　　　小計</p>
+        <p class="flex_child">¥{{$seat->getNotBilledTotalPrice()}}</p>
       </div>
       <div class="payment_product_title flex_between">
-        <p class="flex_child">サービス料（消費税含む）　15％</p>
-        <p class="flex_child">¥{{$seat->getServicePrice()}}</p>
+        <p class="flex_child">　　　サービス料（消費税含む）　15％</p>
+        <p class="flex_child">¥{{$seat->getNotBilledServicePrice()}}</p>
       </div>
       <hr>
       <div class="payment_product_title flex_between">
         <h4 class="flex_child">合計</h4>
-        <h4 class="flex_child">¥{{$seat->getTotalPrice() + $seat->getServicePrice()}}</h4>
+        <h4 class="flex_child">¥{{$seat->getNotBilledTotalPrice() + $seat->getNotBilledServicePrice()}}</h4>
       </div>
     </div>
   </div>
 
   <div class="submit_btn">
-    <input type="submit" value="支払い確定" class="btn">
+    <form action="/seat/{{$seat->id}}/pay" method="post">
+      @csrf
+      <input type="submit" value="支払い確定" class="btn">
+    </form>
   </div>
 
 @endsection

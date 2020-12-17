@@ -1,13 +1,9 @@
 @extends('layouts.main')
 
-@section('title', 'Find')
+@section('sub_title', '商品検索')
+@section('title', 'ProductFind')
 
-@section('menubar')
-   @parent
-   商品検索ページ
-@endsection
-
-@section('content')
+@section('main_container')
   <form action="/product/find" method="post">
     @csrf
     <div class="form_field">
