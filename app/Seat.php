@@ -26,6 +26,10 @@ class Seat extends Model
         return $this->belongsToMany("App\AtherMenu", "seat_ather_menu");
     }
 
+    public function casts(){
+        return $this->belongsToMany("App\Cast", "seat_cast");
+    }
+
     public function getName(){
         return $this->name;
     }
@@ -170,6 +174,31 @@ class Seat extends Model
             $atherMenuNames[] = $atherMenu->name;
         }
         $count = array_count_values($atherMenuNames);
+        return $count[$name];
+    }
+
+    public function getCastAdjust(){
+        $casts = $this->casts;
+        $array = [];
+        $result = [];
+        foreach($casts as $cast){
+            if(!in_array($cast->name, $array)){
+                $array[] = $cast->name;
+                $result[] = $cast;
+            }else{
+                continue;
+            }
+        }
+        return $result;
+    }
+
+    public function getCastAdjustCount($name){
+        $casts = $this->casts;
+        $castNames = [];
+        foreach($casts as $cast){
+            $castNames[] = $cast->name;
+        }
+        $count = array_count_values($castNames);
         return $count[$name];
     }
 

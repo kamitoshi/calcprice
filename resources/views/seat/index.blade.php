@@ -56,7 +56,7 @@
           </div>
         @else
           <div class="buy_item_index_box">
-            <h4 class="ma-b-20">購入商品一覧</h4>
+            <h4 class="ma-b-10 ma-t-20">購入商品一覧</h4>
             <div class="buy_item_index">
               @foreach($seat->getNotBilledProductAdjust() as $buyItem)
                 @if($seat->getNotBilledTotalCount($buyItem->getProductName()) > 1)
@@ -65,17 +65,21 @@
                   <p>{{$buyItem->getProductName()}}</p>
                 @endif
               @endforeach
-              <h4 class="ma-b-20">セット一覧</h4>
+              <h4 class="ma-b-10 ma-t-20">セット一覧</h4>
               @foreach($seat->getSetMenuAdjust() as $setMenu)
                 <p>{{$setMenu->name}}　x　{{$seat->getSetMenuAdjustCount($setMenu->name)}}</p>
               @endforeach
-              <h4 class="ma-b-20">その他一覧</h4>
+              <h4 class="ma-b-10 ma-t-20">その他一覧</h4>
               @foreach($seat->getAtherMenuAdjust() as $atherMenu)
                 <p>{{$atherMenu->name}}　x　{{$seat->getAtherMenuAdjustCount($atherMenu->name)}}</p>
               @endforeach
-              
+              <h4 class="ma-b-10 ma-t-20">キャスト指名</h4>
+              <p>指名回数：{{count($seat->casts)}}</p>
+              @foreach($seat->casts as $cast)
+                <p>{{$cast->name}}</p>
+              @endforeach
               <div class="add_item_btn ma-30 right">
-                <a href="/seat/{{$seat->id}}/buy_item" class="btn">商品追加</a>
+                <a href="/seat/{{$seat->id}}/buy_item" class="btn">追加</a>
               </div>
               <div class="payment_btn right ma-t-50 ma-r-30">
                 <a href="/seat/{{$seat->id}}/payment">支払いページへ</a>

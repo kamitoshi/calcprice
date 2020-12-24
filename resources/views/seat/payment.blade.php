@@ -50,6 +50,16 @@
         @endforeach
       @endif
       <hr>
+      <h4>■指名（キャスト）</h4>
+      @if($seat->casts !== null)
+        @foreach($seat->getCastAdjust() as $cast)
+          <div class="payment_product flex_between">
+            <p class="flex_child">　{{$cast->name}}　x　{{$seat->getCastAdjustCount($cast->name)}}</p>
+            <p class="flex_child">¥{{$cast->getSumPrice($seat->getCastAdjustCount($cast->name))}}</p>
+          </div>
+        @endforeach
+      @endif
+      <hr>
       <div class="payment_product_title flex_between">
         <p class="flex_child">　　　小計</p>
         <p class="flex_child">¥{{$seat->getNotBilledTotalPrice()}}</p>
