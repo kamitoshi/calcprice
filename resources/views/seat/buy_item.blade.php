@@ -63,6 +63,20 @@
         </table>
       </div>
       <div class="flex_child">
+        <h3 class="text_center">Cast〜キャスト〜</h3>
+        <table>
+          @foreach($casts as $cast)
+            <tr>
+              <td>{{$cast->name}}</td>
+              <td>
+                <select name="{{$cast->name}}">
+                  <option value="">-</option>
+                  <option value={{$cast->id}}>指名</option>
+                </select>
+              </td>
+            </tr>
+          @endforeach
+        </table>
         <h3 class="text_center">Ather〜その他〜</h3>
         <table>
           @foreach($atherMenus as $atherMenu)
