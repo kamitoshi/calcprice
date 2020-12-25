@@ -52,11 +52,9 @@
       <hr>
       <h4>■指名（キャスト）</h4>
       @if($seat->casts !== null)
-        @foreach($seat->getCastAdjust() as $cast)
-          <div class="payment_product flex_between">
-            <p class="flex_child">　{{$cast->name}}　x　{{$seat->getCastAdjustCount($cast->name)}}</p>
-            <p class="flex_child">¥{{$cast->getSumPrice($seat->getCastAdjustCount($cast->name))}}</p>
-          </div>
+        <p>　指名回数：{{count($seat->casts)}}</p>
+        @foreach($seat->casts as $cast)
+          <p>　{{$cast->name}}</p>
         @endforeach
       @endif
       <hr>
@@ -65,13 +63,17 @@
         <p class="flex_child">¥{{$seat->getNotBilledTotalPrice()}}</p>
       </div>
       <div class="payment_product_title flex_between">
+        <p class="flex_child">　　　指名料</p>
+        <p class="flex_child">¥{{count($seat->casts) * 300}}</p>
+      </div>
+      <div class="payment_product_title flex_between">
         <p class="flex_child">　　　サービス料（消費税含む）　15％</p>
         <p class="flex_child">¥{{$seat->getNotBilledServicePrice()}}</p>
       </div>
       <hr>
       <div class="payment_product_title flex_between">
         <h4 class="flex_child">合計</h4>
-        <h4 class="flex_child">¥{{$seat->getNotBilledTotalPrice() + $seat->getNotBilledServicePrice()}}</h4>
+        <h4 class="flex_child">¥{{$seat->getNotBilledTotalPrice() + $seat->getNotBilledServicePrice() + count($seat->casts) * 300}}</h4>
       </div>
     </div>
   </div>

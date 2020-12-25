@@ -16,6 +16,10 @@ class Cast extends Model
         return $this->belongsToMany("App\Seat", "seat_cast");
     }
 
+    public function salaries(){
+        return $this->hasMany("App\Salary");
+    }
+
     public function getAge(){
         if($this->age === null){
             return "秘密";

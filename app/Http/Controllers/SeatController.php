@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use DateTime;
 use App\Seat;
 use App\BuyItem;
 use App\Product;
 use App\SetMenu;
 use App\AtherMenu;
 use App\Cast;
+use App\Salary;
 
 class SeatController extends Controller
 {
@@ -94,6 +96,18 @@ class SeatController extends Controller
         foreach($buyItems as $buyItem){
             $buyItem->billed = true;
             $buyItem->save();
+        }
+        $casts = $seat->casts;
+        $now = new Datetime();
+        foreach($casts as $cast){
+            foreach($cast->salaries as $salary){
+                if($salary->target_date->format("Y年m月") === $now->format("Y年m月")){
+                    $salary->commission = $salary->commission += 300;
+                    $salary->save();
+                }else{
+                    continue;
+                }
+            }
         }
         $seat->setMenus()->detach();
         $seat->atherMenus()->detach();
