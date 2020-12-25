@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSalaryTable extends Migration
+class CreateSalariesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class CreateSalaryTable extends Migration
      */
     public function up()
     {
-        Schema::create('salary', function (Blueprint $table) {
+        Schema::create('salaries', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer("cast_id");
+            $table->datetime("target_date");
+            $table->integer("salary");
+            $table->integer("commission");
             $table->timestamps();
         });
     }
@@ -26,6 +30,6 @@ class CreateSalaryTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('salary');
+        Schema::dropIfExists('salaries');
     }
 }

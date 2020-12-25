@@ -240,11 +240,17 @@ class Seat extends Model
         foreach($this->atherMenus as $atherMenu){
             $result += $atherMenu->price;
         }
+
         return $result;
     }
 
     public function getNotBilledServicePrice(){
         return $this->getNotBilledTotalPrice() * 0.15;
+    }
+
+    public function getDesignationPrice(){
+        $seat = $this;
+        return $casts = $seat->casts;
     }
 
     public function getTotalPrice(){

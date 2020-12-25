@@ -30,6 +30,9 @@
   </table>
   <div class="btn_box flex">
     <div class="btn flex_child">
+      <a href="/casts/{{$cast->id}}/salary">給料確認</a>
+    </div>
+    <div class="btn flex_child">
       <a href="/casts/{{$cast->id}}/edit">編集</a>
     </div>
     <div class="btn flex_child">
