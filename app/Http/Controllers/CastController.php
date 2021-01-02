@@ -41,7 +41,7 @@ class CastController extends Controller
         $data = $request->all();
         unset($data["_token"]);
         $cast->fill($data)->save();
-        return redirect("casts");
+        return redirect("casts/{$cast->id}");
     }
 
     public function delete($cast){

@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DateTime;
+use App\Cast;
 
 class Salary extends Model
 {
@@ -15,6 +17,12 @@ class Salary extends Model
 
     public function getTotalPrice(){
         return $this->fixed_salary + $this->changed_salary;
+    }
+
+    public function getToMonthSalary($date){
+        if($this->target_date->format("Y-m") === $date->format("Y-m")){
+            return $this;
+        }
     }
 
 }
