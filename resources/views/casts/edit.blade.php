@@ -36,6 +36,10 @@
       <p>好きな物</p>
       <input type="text" name="favorite" value="{{$cast->favorite}}" size="100">
     </div>
+    <div class="cast_form">
+      <p>時給</p>
+      <input type="text" name="hourly_wage" value="{{$cast->hourly_wage}}" size="100">
+    </div>
     <div class="submit_btn">
       <input type="submit" value="登録" class="btn">
     </div>

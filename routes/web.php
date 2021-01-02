@@ -63,8 +63,8 @@ Route::post("ather_menu/{atherMenu_id}/delete", "AtherMenuController@del")->name
 
 Route::get("casts/{cast}/delete", "CastController@delete")->name("casts.delete");
 Route::resource("casts", "CastController");
-
 Route::resource("casts.salary", "SalaryController");
+Route::resource("casts.work_times", "WorkTimeController");
 
 Route::get('/home', 'HomeController@index')->name('home');
 
